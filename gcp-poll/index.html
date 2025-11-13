@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Class Poll</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body { font-family: sans-serif; text-align: center; }
+    button { font-size: 2rem; padding: 20px; margin: 10px; }
+    #message { font-size: 1.5rem; color: green; }
+  </style>
+</head>
+<body>
+  <h1>How would you describe our project's architecture?</h1>
+  <button onclick="vote('optionA')">Simple & Powerful</button>
+  <button onclick="vote('optionB')">Elegant & Scalable</button>
+  <button onclick="vote('optionC')">Not a confusing AWS diagram</button>
+
+  <h2 id="message"></h2>
+
+  <script>
+    const FUNCTION_URL = 'https://vote-service-531159467643.us-central1.run.app';
+
+    async function vote(option) {
+      document.getElementById('message').innerText = 'Sending...';
+
+      await fetch(FUNCTION_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ vote: option })
+      });
+
+      document.getElementById('message').innerText = 'Thank you for voting!';
+    }
+  </script>
+</body>
+</html>
